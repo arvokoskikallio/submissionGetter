@@ -49,12 +49,22 @@ public class Main
                 lines[1] = temp;
             }
 
+            //fixes missing date
+            if(lines[0].toLowerCase().contains("name"))
+            {
+                lines[1] = lines[0];
+                lines[0] = "Date: MISSING?";
+            }
+
+
             for(j=0; j<lines.length; j++)
             {
 
                 //HEADER PARSE
                 if(lines[j].toLowerCase().contains("date"))
                 {
+                    lines[j] = "\n" + lines[j];
+
                     //converts lowercase months to uppercase
                     for(k=0; k<months.length; k++)
                     {
@@ -99,12 +109,15 @@ public class Main
                     //removes double spaces
                     lines[j] = lines[j].replace("  ", " ");
 
-                    //removes spaces before colon
-                    lines[j] = lines[j].replace(" :", ":");
-
                     if(lines[j].contains("date"))
                     {
                         lines[j] = lines[j].replace("date", "Date");
+                    }
+
+                    //Fixes the "Paul Allain" error
+                    if(lines[j].contains("Date :"))
+                    {
+                        lines[j] = lines[j].replace("Date :", "Date:");
                     }
 
 
@@ -112,22 +125,36 @@ public class Main
                 }
 
 
-                else if(lines[j].toLowerCase().contains("name"))
+                if(lines[j].toLowerCase().contains("name"))
                 {
                     //removes double spaces
                     lines[j] = lines[j].replace("  ", " ");
-
-                    //removes spaces before colon
-                    lines[j] = lines[j].replace(" :", ":");
 
                     if(lines[j].contains("name"))
                     {
                         lines[j] = lines[j].replace("name", "Name");
                     }
+
+                    //Fixes the "Paul Allain" error
+                    if(lines[j].contains("Name :"))
+                    {
+                        lines[j] = lines[j].replace("Name :", "Name:");
+                    }
+
+                    //Adds space to combat parser crashes
+                    lines[j] += "\n";
+
+                    //END OF NAME PARSE
+                }
+
+                //If there's no name field
+                if(lines[j].contains("Date:") && !lines[j+1].toLowerCase().contains("name"))
+                {
+                    lines[j+1] = "Name: MISSING?\n" + lines[j+1];
                 }
 
                 //fixes ng stuff
-                else if(lines[j].toLowerCase().contains("ng"));
+                if(lines[j].toLowerCase().contains(" ng") || lines[j].toLowerCase().contains("(ng)"))
                 {
                     lines[j] = lines[j].replace("ng:", "nosc:");
                     lines[j] = lines[j].replace("NG:", "nosc:");
@@ -139,6 +166,16 @@ public class Main
                     lines[j] = lines[j].replace(" NG ", " nosc ");
                     lines[j] = lines[j].replace("(NG)", "nosc");
                     lines[j] = lines[j].replace("(ng)", "nosc");
+                }
+
+                //Adds a warning flag for common incorrectly submitted tracks
+                if((lines[j].toLowerCase().contains("rbc") && !lines[j].toLowerCase().contains("bc3")
+                        || lines[j].toLowerCase().contains("rr") || lines[j].toLowerCase().contains("sgb")
+                        || lines[j].toLowerCase().contains("rpg") || lines[j].toLowerCase().contains("tf")
+                        || lines[j].toLowerCase().contains("rws")) &&
+                        !lines[j].toLowerCase().contains("date") && !lines[j].toLowerCase().contains("name")) //doesn't miscorrect date and name fields
+                {
+                    lines[j] += "  (POSSIBLE NG FLAG MISSING?)";
                 }
 
             }
