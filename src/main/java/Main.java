@@ -172,7 +172,7 @@ public class Main
                 if((lines[j].toLowerCase().contains("rbc") && !lines[j].toLowerCase().contains("bc3")
                         || lines[j].toLowerCase().contains("rr") || lines[j].toLowerCase().contains("sgb")
                         || lines[j].toLowerCase().contains("rpg") || lines[j].toLowerCase().contains("tf")
-                        || lines[j].toLowerCase().contains("rws")) &&
+                        || lines[j].toLowerCase().contains("rws") || lines[j].toLowerCase().contains("kc")) &&
                         !lines[j].toLowerCase().contains("date") && !lines[j].toLowerCase().contains("name")) //doesn't miscorrect date and name fields
                 {
                     lines[j] += "  (POSSIBLE NG FLAG MISSING?)";
