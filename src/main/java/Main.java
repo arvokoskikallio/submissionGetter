@@ -120,6 +120,11 @@ public class Main
                         lines[j] = lines[j].replace("Date :", "Date:");
                     }
 
+                    if(lines[j].contains("Date;"))
+                    {
+                        lines[j] = lines[j].replace("Date;", "Date:");
+                    }
+
 
                     //END OF DATE PARSE
                 }
@@ -139,6 +144,11 @@ public class Main
                     if(lines[j].contains("Name :"))
                     {
                         lines[j] = lines[j].replace("Name :", "Name:");
+                    }
+
+                    if(lines[j].contains("Name;"))
+                    {
+                        lines[j] = lines[j].replace("Name;", "Name:");
                     }
 
                     //Adds space to combat parser crashes
