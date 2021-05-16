@@ -39,7 +39,7 @@ public class Main
         {
             String message = elements.get(i).getText();
             String[] lines = message.split("\n");
-            if(lines > 2) {
+            if(lines.length > 2) {
                 //if name is before date
                 if (lines[0].toLowerCase().contains("name") && lines[1].toLowerCase().contains("date")) {
                     //swaps the name and date
